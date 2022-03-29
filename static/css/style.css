@@ -1,0 +1,21 @@
+
+.bg-dark{
+	background-color: #75767B;
+}
+
+
+.mt-50{
+	margin-top: 50px;
+}
+#canvas{
+    border: 2px solid black;
+}
+
+body{
+      background-image: url('/templates/pexels-maurício-mascaro-376533.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      margin-top: 5rem;
+    
+}
