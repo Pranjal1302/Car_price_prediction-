@@ -3,6 +3,7 @@ from flask_cors import CORS,cross_origin
 import pickle
 import pandas as pd
 import numpy as np
+from sklearn import datasets
 
 app=Flask(__name__)
 cors=CORS(app)
@@ -11,11 +12,12 @@ car=pd.read_csv('Cleaned_Car_data.csv')
 
 @app.route('/',methods=['GET','POST'])
 def index():
+    # in this we have assigned unique values from the datasets to the html page
     companies=sorted(car['company'].unique())
     car_models=sorted(car['name'].unique())
     year=sorted(car['year'].unique(),reverse=True)
     fuel_type=car['fuel_type'].unique()
-
+    # in this we have assigned unique values from the datasets to the html page
     companies.insert(0,'Select Company')
     return render_template('index.html',companies=companies, car_models=car_models, years=year,fuel_types=fuel_type)
 
@@ -23,21 +25,21 @@ def index():
 @app.route('/predict',methods=['POST'])
 @cross_origin()
 def predict():
-
+    # in this we have taken the values from the html page and stored in the variables
     company=request.form.get('company')
 
     car_model=request.form.get('car_models')
     year=request.form.get('year')
     fuel_type=request.form.get('fuel_type')
     driven=request.form.get('kilo_driven')
-
+    # in this we have passed to the prediction model for the predicted value
     prediction=model.predict(pd.DataFrame(columns=['name', 'company', 'year', 'kms_driven', 'fuel_type'],
                               data=np.array([car_model,company,year,driven,fuel_type]).reshape(1, 5)))
     print(prediction)
-
+    # we returned predicted value to the html page
     return str(np.round(prediction[0],2))
 
 
 
 if __name__=='__main__':
-    app.run()
+    app.run(debug=True)
